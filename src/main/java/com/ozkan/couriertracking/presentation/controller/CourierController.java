@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,14 +49,15 @@ public class CourierController {
 
     @Operation(summary = "Update Courier Location", description = "Updates location of Courier's")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Courier logging successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid courier data")
+            @ApiResponse(responseCode = "201", description = "Courier logging successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid courier data"),
+            @ApiResponse(responseCode = "409", description = "Duplicate entry for the store within the last minute.")
     })
     @PutMapping("/update-location")
     public ResponseEntity<Void> updateCourierLocation(
             @Valid @RequestBody UpdateCourierLocationRequest request) {
         mediator.send(request.toUpdateCourierLocationCommand());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

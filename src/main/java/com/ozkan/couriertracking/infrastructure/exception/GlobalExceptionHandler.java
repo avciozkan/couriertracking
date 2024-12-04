@@ -11,9 +11,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = {CourierNotFoundException.class, OutOfStoreRadiusException.class, DuplicateStoreEntryException.class})
+    @ExceptionHandler(value = {CourierNotFoundException.class})
     public ResponseEntity<String> handleNotFoundException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = {OutOfStoreRadiusException.class})
+    public ResponseEntity<String> handleOutOfStoreRadiusException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = {DuplicateStoreEntryException.class})
+    public ResponseEntity<String> handleDuplicateStoreEntryException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
