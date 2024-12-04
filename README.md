@@ -23,9 +23,11 @@ The **Courier Tracking Service** is a Spring Boot application designed to track 
 
 *   **Lombok**
 
-*   **MediatR**
+*   **MediatR Pattern**
 
-*   **CQRS** for implementing Command-Query Responsibility Segregation
+*   **CQRS Pattern** for implementing Command-Query Responsibility Segregation
+
+*   **Distance Calculator based on Distance Type** (Strategy Pattern)
 
 *   **OpenAPI/Swagger** for API documentation
 
