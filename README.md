@@ -130,7 +130,7 @@ The **Courier Tracking Service** is a Spring Boot application designed to track 
 
 2. Navigate to the project directory
     ```bash
-     cd courier-tracking-service
+     cd couriertracking
 
 3. Run the application
    ```bash
