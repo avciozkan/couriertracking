@@ -1,7 +1,8 @@
 package com.ozkan.couriertracking.application.courierdistancequery;
 
+import com.ozkan.couriertracking.application.enums.DistanceType;
 import com.ozkan.couriertracking.application.exception.CourierNotFoundException;
-import com.ozkan.couriertracking.application.service.DistanceCalculator;
+import com.ozkan.couriertracking.application.util.distance.DistanceCalculatorFactory;
 import com.ozkan.couriertracking.domain.model.Courier;
 import com.ozkan.couriertracking.infrastructure.mediator.base.RequestHandler;
 import com.ozkan.couriertracking.infrastructure.repository.CourierRepository;
@@ -36,10 +37,11 @@ public class GetTotalTravelDistanceQueryHandler implements RequestHandler<GetTot
 
     private double calculateTotalDistance(List<Courier> courierLogs) {
         double totalDistance = 0.0;
+        var distanceCalculator = DistanceCalculatorFactory.getCalculator(DistanceType.HAVERSINE);
         for (int i = 1; i < courierLogs.size(); i++) {
             Courier previousLog = courierLogs.get(i - 1);
             Courier currentLog = courierLogs.get(i);
-            totalDistance += DistanceCalculator.calculateDistance(
+            totalDistance += distanceCalculator.calculateDistance(
                     previousLog.getLatitude(), previousLog.getLongitude(),
                     currentLog.getLatitude(), currentLog.getLongitude()
             );

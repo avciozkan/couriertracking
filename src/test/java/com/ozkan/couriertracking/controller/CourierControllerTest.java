@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class CourierControllerTest {
         ResponseEntity<Void> response = courierController.updateCourierLocation(request);
 
         // Assert
-        assertEquals(ResponseEntity.ok().build(), response);
+        assertEquals(ResponseEntity.status(HttpStatus.CREATED).build(), response);
         verify(mediator).send(any(UpdateCourierLocationCommand.class));
     }
 
@@ -70,7 +71,7 @@ public class CourierControllerTest {
         ResponseEntity<List<CourierTravelsResponse>> response = courierController.getCourierTravels(courierId);
 
         // then
-        assertEquals(200, response.getStatusCode().value());
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
         assertEquals(mockResponse, response.getBody());
     }
 
@@ -85,7 +86,7 @@ public class CourierControllerTest {
         ResponseEntity<TotalTravelDistanceResponse> response = courierController.getTotalDistance(courierId);
 
         // Assert
-        assertEquals(200, response.getStatusCode().value());
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
         assertEquals(mockResponse, response.getBody());
     }
 }

@@ -1,10 +1,11 @@
 package com.ozkan.couriertracking.application.updatecourierlocationcommand;
 
+import com.ozkan.couriertracking.application.enums.DistanceType;
 import com.ozkan.couriertracking.application.exception.DuplicateStoreEntryException;
 import com.ozkan.couriertracking.application.exception.OutOfStoreRadiusException;
-import com.ozkan.couriertracking.application.service.DistanceCalculator;
 import com.ozkan.couriertracking.application.service.Store;
 import com.ozkan.couriertracking.application.service.StoreService;
+import com.ozkan.couriertracking.application.util.distance.DistanceCalculatorFactory;
 import com.ozkan.couriertracking.domain.model.Courier;
 import com.ozkan.couriertracking.infrastructure.mediator.base.RequestHandler;
 import com.ozkan.couriertracking.infrastructure.repository.CourierRepository;
@@ -75,8 +76,9 @@ public class UpdateCourierLocationCommandHandler implements RequestHandler<Updat
 
     private Store findNearestStore(UpdateCourierLocationCommand command, List<Store> stores) {
         Store nearestStore = null;
+        var distanceCalculator = DistanceCalculatorFactory.getCalculator(DistanceType.HAVERSINE);
         for (Store store : stores) {
-            double distance = DistanceCalculator.calculateDistance(
+            double distance = distanceCalculator.calculateDistance(
                     command.getLatitude(), command.getLongitude(),
                     store.getLatitude(), store.getLongitude()
             );
